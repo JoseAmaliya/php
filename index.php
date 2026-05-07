@@ -3,38 +3,13 @@ include 'koneksi.php';
 
 header('Content-Type: application/json');
 
-$method = $_SERVER['REQUEST_METHOD'];
+$data = mysqli_query($koneksi, "SELECT * FROM users");
 
-if($method == 'GET'){
+$users = [];
 
-    $data = mysqli_query($koneksi, "SELECT * FROM users");
-
-    $users = [];
-
-    while($d = mysqli_fetch_assoc($data)){
-        $users[] = $d;
-    }
-
-    echo json_encode($users, JSON_PRETTY_PRINT);
+while($d = mysqli_fetch_assoc($data)){
+    $users[] = $d;
 }
 
-elseif($method == 'POST'){
-
-    $nama = $_POST['nama'];
-    $sandi = $_POST['sandi'];
-
-    $query = mysqli_query($koneksi,
-    "INSERT INTO users(nama, sandi)
-    VALUES('$nama','$sandi')");
-
-    if($query){
-        echo json_encode([
-            "message" => "Data berhasil ditambah"
-        ]);
-    } else {
-        echo json_encode([
-            "message" => "Gagal tambah data"
-        ]);
-    }
-}
+echo json_encode($users, JSON_PRETTY_PRINT);
 ?>
