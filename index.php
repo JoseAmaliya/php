@@ -1,4 +1,8 @@
-<?php include 'koneksi.php'; ?>
+<?php
+include 'koneksi.php';
+
+echo "Koneksi berhasil!";
+?>
 
 <!DOCTYPE html>
 <html>
