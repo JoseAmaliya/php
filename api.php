@@ -24,8 +24,10 @@ if($method == 'GET'){
 // ================= POST =================
 elseif($method == 'POST'){
 
-    $nama = $_POST['nama'];
-    $sandi = $_POST['sandi'];
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $nama = $data['nama'];
+    $sandi = $data['sandi'];
 
     $query = mysqli_query($koneksi,
     "INSERT INTO users(nama, sandi)
@@ -33,10 +35,12 @@ elseif($method == 'POST'){
 
     if($query){
         echo json_encode([
+            "status" => "success",
             "message" => "Data berhasil ditambah"
         ]);
     } else {
         echo json_encode([
+            "status" => "error",
             "message" => "Gagal tambah data"
         ]);
     }
@@ -46,11 +50,11 @@ elseif($method == 'POST'){
 // ================= PUT =================
 elseif($method == 'PUT'){
 
-    parse_str(file_get_contents("php://input"), $_PUT);
+    $data = json_decode(file_get_contents("php://input"), true);
 
     $id = $_GET['id'];
-    $nama = $_PUT['nama'];
-    $sandi = $_PUT['sandi'];
+    $nama = $data['nama'];
+    $sandi = $data['sandi'];
 
     $query = mysqli_query($koneksi,
     "UPDATE users
@@ -59,10 +63,12 @@ elseif($method == 'PUT'){
 
     if($query){
         echo json_encode([
+            "status" => "success",
             "message" => "Data berhasil diupdate"
         ]);
     } else {
         echo json_encode([
+            "status" => "error",
             "message" => "Gagal update data"
         ]);
     }
@@ -79,10 +85,12 @@ elseif($method == 'DELETE'){
 
     if($query){
         echo json_encode([
+            "status" => "success",
             "message" => "Data berhasil dihapus"
         ]);
     } else {
         echo json_encode([
+            "status" => "error",
             "message" => "Gagal hapus data"
         ]);
     }
